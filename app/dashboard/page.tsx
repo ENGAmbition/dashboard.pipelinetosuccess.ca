@@ -1,4 +1,3 @@
-// pages/dashboard.tsx
 'use client';
 import React, { useState } from 'react';
 
@@ -17,7 +16,7 @@ const Dashboard: React.FC = () => {
     username: 'AdminUser',
     email: 'faiz@example.com',
     profileImage: 'https://via.placeholder.com/150', 
-    permissions: ['create', 'edit', 'delete'] // 
+    permissions: ['create', 'edit', 'delete'] 
   };
   const user1: IUser = {
     username: 'EmployeeUser',
@@ -25,6 +24,7 @@ const Dashboard: React.FC = () => {
     profileImage: 'https://via.placeholder.com/150', 
     permissions: ['edit', 'delete'] 
   };
+
   const handleCreateAnnouncement = () => {
     if (announcementContent.trim() !== '') {
       setAnnouncements(prevAnnouncements => [...prevAnnouncements, announcementContent]);
@@ -89,5 +89,12 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+const DashboardPage: React.FC = () => {
+  return (
+    <div>
+      <Dashboard />
+    </div>
+  );
+};
 
+export default DashboardPage;
