@@ -35,10 +35,6 @@ function Components() {
       </header>
 
       {/**
-       * Section for About Us
-       */}
-
-      {/**
        * Section for MCAT@Guelph
        */}
       <section className="max-w-2xl" id="mcat-guelph">
