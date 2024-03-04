@@ -1,0 +1,62 @@
+// prisma/schema.prisma
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+//
+// The User model
+//
+// This will be used to store the users of the application
+//
+model User {
+  //
+  // Unique identifiers for the user
+  //
+  id           String         @id @unique @default(uuid())
+  secret       String         @unique @default(uuid())
+  email        String         @unique
+  //
+  // We store the users encrypted password (bcrypt)
+  //
+  password     String
+  //
+  // Store the users permissions
+  //
+  // These can be: Admin, SuperAdmin, Default: []
+  //
+  permissions  String[]       @default([])
+  //
+  // The announcements that the user has created
+  //
+  Announcement Announcement[]
+}
+
+//
+// The Announcement model
+//
+// This will be used to store the announcements that are created by 
+// admins and shown to frontend users
+//
+model Announcement {
+  //
+  // Unique identifiers for the announcement
+  //
+  id        String   @id @unique @default(uuid())
+  //
+  // Modifyable fields for the announcement
+  //
+  title     String
+  content   String
+  //
+  // The date the announcement was created and last updated
+  //
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  //
+  // The author that wrote the announcement
+  //
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+}
