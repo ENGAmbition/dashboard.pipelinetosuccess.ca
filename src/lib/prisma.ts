@@ -163,6 +163,43 @@ export class Prisma extends PrismaClient {
       where: { email },
     });
   };
+
+  /**
+   * Add a new user
+   *
+   * @param email The user's email
+   * @returns The created user
+   */
+  public static readonly createUser = async (
+    email: string,
+  ): Promise<User | null> => {
+    const generatedPassword = uuidv4();
+
+    return await Prisma.create("user", {
+      data: {
+        email,
+        password: generatedPassword,
+      },
+    });
+  };
+
+  /**
+   * Get a user by their secret
+   *
+   * @param secret The user's secret
+   * @returns The user's data
+   */
+  public static readonly getUserBySecret = async (
+    secret: string,
+  ): Promise<User | null> => {
+    return await Prisma.findOne("user", {
+      where: { secret },
+      select: {
+        email: true,
+        permissions: true,
+      },
+    });
+  };
 }
 
 // create a global prisma instance
