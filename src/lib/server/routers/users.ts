@@ -59,7 +59,26 @@ export const usersRouter = {
     .input(z.object({ auth: z.string(), email: z.string() }))
     .mutation(async ({ input }) => {
       // Verify that the user with the "auth" secret has the admin permission
-      // Create a new function in /lib/prisma.ts to get an user by their secret
-      const generatedPassword = uuidv4();
+      const authUser = await Prisma.getUserBySecret(input.auth);
+      if (!authUser) {
+        return { success: false, message: "Invalid auth secret" };
+      }
+
+      if (!authUser.permissions.includes(Permission.ADMIN)) {
+        return { success: false, message: "You do not have permission" };
+      }
+
+      // Create the user in the database
+      const user = await Prisma.createUser(input.email);
+      if (!user) {
+        return { success: false, message: "Failed to create user" };
+      }
+
+      /**
+       * TODO: Send the user an email with their generated password
+       */
+
+      // return the newly created user (this includes the generated password)
+      return { success: true, message: "Success", user };
     }),
 };
