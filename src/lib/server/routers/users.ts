@@ -81,4 +81,26 @@ export const usersRouter = {
       // return the newly created user (this includes the generated password)
       return { success: true, message: "Success", user };
     }),
+
+  /**
+   * add use permission TODO
+   */
+  addUserPermission: publicProcedure
+    .input(
+      z.object({ auth: z.string(), email: z.string(), permission: z.string() }),
+    )
+    .mutation(async ({ input }) => {
+      // first verify that the "auth" is an admin
+      // Prisma.getUserBySecret(auth)
+
+      // check if they have admin perms
+      return {};
+
+      // if they do have admin perms
+      // permission will be a string ("create_post")
+      // Prisma.addUserPermission(email, permission)
+    }),
+
+  // removeUserPermission
+  // updateUserPermissions
 };
